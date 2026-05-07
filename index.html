@@ -2,23 +2,41 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Groupe 7 - Projet PPE IPNET</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
-        h1 { color: #2c3e50; }
-        .client { margin: 20px; padding: 20px; border: 1px solid #ddd; display: inline-block; background: white; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hébergement Groupe 7 | IPNET</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Plateforme d'Hébergement - Groupe 7</h1>
-    <p>Infrastructure déployée et sécurisée par la Team Cyber 7.</p>
-    <div class="client">
-        <h2>Client 1 : AgriDrone Togo</h2>
-        <p>Services : Web & Mail activés</p>
+
+<div class="container">
+    <h1>Bienvenue sur la Plateforme du Groupe 7</h1>
+    <p>Expertise en administration réseaux et sécurisation d'infrastructures.</p>
+
+    <div class="clients-grid">
+        <div class="card">
+            <h3 style="color:#2e7d32">AgriDrone Togo</h3>
+            <p>Hébergement Web & Mail sécurisé activé.</p>
+        </div>
+        <div class="card">
+            <h3 style="color:#1565c0">EduTogo E-learning</h3>
+            <p>Plateforme de formation en ligne opérationnelle.</p>
+        </div>
     </div>
-    <div class="client">
-        <h2>Client 2 : EduTogo E-learning</h2>
-        <p>Services : Web & Mail activés</p>
-    </div>
+
+    <hr>
+
+    <h3>Nous Contacter</h3>
+    <!-- Remplace l'ID après /f/ par ton ID Formspree (gratuit sur formspree.io) -->
+    <form action="https://formspree.io/f/votre_id_formspree" method="POST">
+        <input type="email" name="email" placeholder="Votre email (ex: client@agridrone.tg)" required>
+        <textarea name="message" placeholder="Votre message pour l'administration..." rows="4" required></textarea>
+        <button type="submit">Envoyer la demande</button>
+    </form>
+    
+    <p style="font-size: 0.8rem; color: #888; margin-top: 20px;">
+        Identité numérique : <a href="mailto:groupe7@ipnetuniversity.net">groupe7@ipnetuniversity.net</a>
+    </p>
+</div>
+
 </body>
 </html>

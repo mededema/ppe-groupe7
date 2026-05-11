@@ -1,42 +1,1074 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hébergement Groupe 7 | IPNET</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CyberForge Academy — Formation en Cybersécurité</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #020a12;
+      --surface: #050f1a;
+      --card: #071526;
+      --accent: #00d4ff;
+      --accent2: #ff3c6e;
+      --accent3: #7cfc00;
+      --text: #c8dbe8;
+      --text-dim: #4a6b80;
+      --border: rgba(0,212,255,0.15);
+      --glow: 0 0 30px rgba(0,212,255,0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .35;
+    }
+
+    /* ── GRID LINES ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ────────────── NAV ────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      backdrop-filter: blur(20px);
+      background: rgba(2,10,18,.8);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900; font-size: 1.3rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent2); }
+
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      text-decoration: none; color: var(--text-dim);
+      font-size: .85rem; letter-spacing: 1px; text-transform: uppercase;
+      font-family: 'Share Tech Mono', monospace;
+      transition: color .3s;
+    }
+    nav ul a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent) !important;
+      padding: .5rem 1.2rem;
+      text-decoration: none;
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem !important;
+      letter-spacing: 2px;
+      transition: background .3s, box-shadow .3s !important;
+    }
+    .nav-cta:hover {
+      background: rgba(0,212,255,.1) !important;
+      box-shadow: var(--glow) !important;
+    }
+
+    /* ────────────── HERO ────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 8rem 2rem 4rem;
+    }
+
+    /* Animated background image via unsplash */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80');
+      background-size: cover; background-position: center;
+      filter: brightness(.12) saturate(1.4);
+      transform: scale(1.05);
+      animation: bgZoom 20s ease-in-out infinite alternate;
+    }
+    @keyframes bgZoom { to { transform: scale(1.0); } }
+
+    /* Radial glow overlay */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,212,255,.08) 0%, transparent 70%);
+      z-index: 1;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 860px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      border: 1px solid rgba(0,212,255,.3);
+      padding: .35rem 1rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .75rem; letter-spacing: 2px;
+      color: var(--accent); margin-bottom: 2rem;
+      animation: fadeDown .8s ease both;
+    }
+    .badge::before { content: '▶'; font-size: .6rem; }
+
+    .hero h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -1px;
+      color: #fff;
+      animation: fadeDown 1s .1s ease both;
+    }
+
+    .hero h1 .highlight {
+      color: transparent;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.1rem; color: var(--text-dim); max-width: 580px;
+      margin: 1.5rem auto 2.5rem;
+      line-height: 1.8;
+      animation: fadeDown 1s .2s ease both;
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeDown 1s .3s ease both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #0088aa);
+      color: #000; font-family: 'Orbitron', monospace;
+      font-size: .8rem; font-weight: 700; letter-spacing: 2px;
+      padding: .9rem 2.2rem; border: none; cursor: pointer;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .3s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(0,212,255,.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text); font-family: 'Orbitron', monospace;
+      font-size: .8rem; letter-spacing: 2px;
+      padding: .9rem 2.2rem; border: 1px solid rgba(255,255,255,.15); cursor: pointer;
+      text-decoration: none;
+      transition: border-color .3s, color .3s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Stats bar */
+    .stats-bar {
+      position: relative; z-index: 2;
+      display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+      margin-top: 5rem;
+    }
+    .stat {
+      padding: 1.5rem 2.5rem;
+      border: 1px solid var(--border);
+      border-right: none; background: rgba(5,15,26,.7);
+      text-align: center; backdrop-filter: blur(10px);
+      animation: fadeUp 1s .4s ease both;
+    }
+    .stat:last-child { border-right: 1px solid var(--border); }
+    .stat-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.8rem; font-weight: 900; color: var(--accent);
+    }
+    .stat-label { font-size: .75rem; color: var(--text-dim); letter-spacing: 1px; margin-top: .3rem; }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .65rem;
+      color: var(--text-dim); letter-spacing: 2px;
+      animation: pulse 2s infinite;
+    }
+    .scroll-hint::after {
+      content: ''; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* ────────────── SECTIONS SHARED ────────────── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .7rem; letter-spacing: 4px; color: var(--accent);
+      text-transform: uppercase; margin-bottom: .8rem;
+    }
+    .section-label::before { content: '// '; opacity: .5; }
+
+    h2.section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 900; color: #fff; margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--text-dim); font-size: 1rem;
+      max-width: 560px; line-height: 1.8;
+    }
+
+    /* ────────────── ABOUT ────────────── */
+    .about {
+      padding: 8rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+      align-items: center; max-width: 1200px; margin: 0 auto;
+    }
+
+    .about-img {
+      position: relative;
+    }
+    .about-img img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      filter: brightness(.7) saturate(1.3);
+      border: 1px solid var(--border);
+    }
+    .about-img::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border: 1px solid rgba(0,212,255,.1);
+      pointer-events: none;
+    }
+    .about-img::after {
+      content: 'CERTIFIED';
+      position: absolute; bottom: -1px; left: 0;
+      background: var(--accent2); color: #fff;
+      font-family: 'Orbitron', monospace; font-size: .65rem; letter-spacing: 3px;
+      padding: .4rem 1rem;
+    }
+
+    .about-list { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: .6rem; }
+    .about-list li {
+      font-size: .9rem; color: var(--text); display: flex; align-items: center; gap: .8rem;
+    }
+    .about-list li::before {
+      content: '►'; color: var(--accent); font-size: .6rem; flex-shrink: 0;
+    }
+
+    /* ────────────── COURSES ────────────── */
+    .courses-section {
+      padding: 8rem 4rem;
+      background: linear-gradient(180deg, transparent, rgba(0,212,255,.02), transparent);
+    }
+    .courses-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .courses-header .section-desc { margin: 0 auto; }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+      max-width: 1200px; margin: 0 auto;
+      background: var(--border);
+    }
+
+    .course-card {
+      background: var(--card);
+      padding: 2.5rem;
+      position: relative; overflow: hidden;
+      transition: background .3s;
+      cursor: pointer;
+    }
+    .course-card:hover { background: #0a1f35; }
+    .course-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: transparent;
+      transition: background .3s;
+    }
+    .course-card:hover::before { background: var(--accent); box-shadow: 0 0 20px var(--accent); }
+
+    .course-icon {
+      width: 48px; height: 48px; margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,212,255,.05); border: 1px solid rgba(0,212,255,.15);
+      font-size: 1.4rem;
+    }
+    .course-level {
+      font-family: 'Share Tech Mono', monospace; font-size: .65rem;
+      letter-spacing: 2px; padding: .25rem .6rem;
+      display: inline-block; margin-bottom: .8rem;
+    }
+    .level-debutant { background: rgba(124,252,0,.1); color: var(--accent3); border: 1px solid rgba(124,252,0,.2); }
+    .level-intermediaire { background: rgba(0,212,255,.1); color: var(--accent); border: 1px solid rgba(0,212,255,.2); }
+    .level-avance { background: rgba(255,60,110,.1); color: var(--accent2); border: 1px solid rgba(255,60,110,.2); }
+
+    .course-card h3 {
+      font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700;
+      color: #fff; margin-bottom: .8rem; line-height: 1.4;
+    }
+    .course-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 1.5rem; }
+    .course-meta {
+      display: flex; gap: 1.5rem;
+      font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--text-dim);
+    }
+    .course-meta span { display: flex; align-items: center; gap: .3rem; }
+
+    /* ────────────── FEATURES ────────────── */
+    .features {
+      padding: 8rem 4rem;
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+
+    .features-img {
+      position: relative; order: 2;
+    }
+    .features-img img {
+      width: 100%; object-fit: cover; aspect-ratio: 1;
+      filter: brightness(.6) saturate(1.5) hue-rotate(10deg);
+      border: 1px solid var(--border);
+    }
+    .features-img .img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Terminal window decoration */
+    .terminal {
+      position: absolute; bottom: -2rem; right: -2rem;
+      width: 240px; background: rgba(2,10,18,.95);
+      border: 1px solid var(--border);
+      font-family: 'Share Tech Mono', monospace; font-size: .7rem;
+    }
+    .terminal-bar {
+      background: rgba(0,212,255,.05);
+      padding: .5rem .8rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-r { background: #ff3c6e; } .dot-y { background: #ffb700; } .dot-g { background: #7cfc00; }
+    .terminal-body { padding: .8rem; }
+    .terminal-body p { color: var(--accent3); margin: .15rem 0; }
+    .terminal-body p.dim { color: var(--text-dim); }
+    .terminal-body p.warn { color: var(--accent2); }
+    .cursor { display: inline-block; width: 6px; height: 12px; background: var(--accent); animation: blink .8s infinite; vertical-align: middle; }
+    @keyframes blink { 0%,49%{opacity:1}50%,100%{opacity:0} }
+
+    .features-text { order: 1; }
+    .feature-list { list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .feature-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.2rem; border: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    .feature-item:hover { border-color: var(--border); background: rgba(0,212,255,.02); }
+    .feature-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: rgba(0,212,255,.08); border: 1px solid rgba(0,212,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .feature-item h4 { font-family: 'Orbitron', monospace; font-size: .85rem; color: #fff; margin-bottom: .3rem; }
+    .feature-item p { font-size: .82rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* ────────────── INSTRUCTORS ────────────── */
+    .instructors-section {
+      padding: 8rem 4rem;
+      background: rgba(0,212,255,.01);
+    }
+    .instructors-header { text-align: center; margin-bottom: 4rem; }
+    .instructors-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .instructor-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .instructor-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,212,255,.1);
+    }
+    .instructor-img {
+      width: 100%; aspect-ratio: 3/2; overflow: hidden; position: relative;
+    }
+    .instructor-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top;
+      filter: grayscale(.5) brightness(.7);
+      transition: filter .3s;
+    }
+    .instructor-card:hover .instructor-img img { filter: grayscale(.2) brightness(.85); }
+    .instructor-img::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(to top, var(--card), transparent);
+    }
+    .instructor-info { padding: 1.5rem; }
+    .instructor-info h3 { font-family: 'Orbitron', monospace; font-size: .9rem; color: #fff; margin-bottom: .3rem; }
+    .instructor-info .role { font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--accent); letter-spacing: 1px; margin-bottom: .8rem; }
+    .instructor-info p { font-size: .8rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* ────────────── TESTIMONIALS ────────────── */
+    .testimonials-section { padding: 8rem 4rem; }
+    .testimonials-header { text-align: center; margin-bottom: 4rem; }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+
+    .testi-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 2rem; position: relative; overflow: hidden;
+    }
+    .testi-card::before {
+      content: '"';
+      position: absolute; top: -.5rem; left: 1rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 5rem; color: rgba(0,212,255,.06); line-height: 1;
+      font-weight: 900; pointer-events: none;
+    }
+    .stars { color: #ffb700; font-size: .85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .testi-card p { font-size: .88rem; color: var(--text); line-height: 1.8; margin-bottom: 1.5rem; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: .8rem; }
+    .testi-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace; font-size: .7rem; font-weight: 700; color: #000;
+    }
+    .testi-author-info { font-family: 'Share Tech Mono', monospace; }
+    .testi-author-info .name { font-size: .78rem; color: #fff; }
+    .testi-author-info .job { font-size: .68rem; color: var(--text-dim); }
+
+    /* ────────────── PRICING ────────────── */
+    .pricing-section { padding: 8rem 4rem; background: rgba(0,212,255,.015); }
+    .pricing-header { text-align: center; margin-bottom: 4rem; }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem; max-width: 1000px; margin: 0 auto;
+    }
+
+    .price-card {
+      border: 1px solid var(--border); background: var(--card);
+      padding: 2.5rem; position: relative; overflow: hidden;
+      transition: transform .3s;
+    }
+    .price-card:hover { transform: translateY(-6px); }
+    .price-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0,212,255,.12), inset 0 0 60px rgba(0,212,255,.03);
+    }
+    .featured-badge {
+      position: absolute; top: 0; right: 0;
+      background: var(--accent); color: #000;
+      font-family: 'Orbitron', monospace; font-size: .65rem; letter-spacing: 2px;
+      padding: .35rem .8rem;
+    }
+    .price-tier { font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--accent); letter-spacing: 3px; margin-bottom: 1rem; }
+    .price-amount { display: flex; align-items: baseline; gap: .3rem; margin-bottom: .5rem; }
+    .price-amount .currency { font-family: 'Orbitron', monospace; font-size: 1rem; color: var(--text-dim); }
+    .price-amount .amount { font-family: 'Orbitron', monospace; font-size: 3rem; font-weight: 900; color: #fff; line-height: 1; }
+    .price-amount .period { font-size: .8rem; color: var(--text-dim); }
+    .price-desc { font-size: .82rem; color: var(--text-dim); margin-bottom: 2rem; line-height: 1.6; }
+    .price-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: .7rem; }
+    .price-features li { font-size: .83rem; color: var(--text); display: flex; align-items: center; gap: .7rem; }
+    .price-features li::before { content: '✓'; color: var(--accent3); font-weight: bold; flex-shrink: 0; }
+    .price-features li.off { color: var(--text-dim); }
+    .price-features li.off::before { content: '×'; color: var(--text-dim); }
+
+    .btn-plan {
+      width: 100%; padding: .85rem; border: 1px solid var(--accent);
+      background: transparent; color: var(--accent);
+      font-family: 'Orbitron', monospace; font-size: .75rem; letter-spacing: 2px;
+      cursor: pointer; transition: background .3s, box-shadow .3s;
+    }
+    .btn-plan:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 20px rgba(0,212,255,.2); }
+    .featured .btn-plan {
+      background: var(--accent); color: #000;
+    }
+    .featured .btn-plan:hover { background: #00aacc; box-shadow: 0 0 30px rgba(0,212,255,.4); }
+
+    /* ────────────── CTA BAND ────────────── */
+    .cta-band {
+      padding: 8rem 4rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=60');
+      background-size: cover; background-position: center;
+      filter: brightness(.08) saturate(2);
+    }
+    .cta-band::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,.06), rgba(255,60,110,.04));
+    }
+    .cta-band-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+    .cta-band h2 {
+      font-family: 'Orbitron', monospace; font-size: clamp(2rem,5vw,3.5rem);
+      font-weight: 900; color: #fff; margin-bottom: 1rem; line-height: 1.1;
+    }
+    .cta-band h2 em { font-style: normal; color: var(--accent); }
+    .cta-band p { color: var(--text-dim); font-size: 1rem; line-height: 1.8; margin-bottom: 2.5rem; }
+
+    /* ────────────── FOOTER ────────────── */
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 5rem 4rem 2rem; position: relative; z-index: 1;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem; max-width: 1200px; margin: 0 auto 4rem;
+    }
+    .footer-brand .logo { display: block; margin-bottom: 1rem; }
+    .footer-brand p { font-size: .83rem; color: var(--text-dim); line-height: 1.7; max-width: 280px; }
+    .footer-col h4 {
+      font-family: 'Orbitron', monospace; font-size: .75rem; color: #fff;
+      letter-spacing: 2px; margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a { text-decoration: none; font-size: .82rem; color: var(--text-dim); transition: color .3s; }
+    .footer-col ul a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 2rem;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { font-family: 'Share Tech Mono', monospace; font-size: .7rem; color: var(--text-dim); }
+    .social-links { display: flex; gap: 1rem; }
+    .social-links a {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border); background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: .8rem; color: var(--text-dim);
+      transition: border-color .3s, color .3s;
+    }
+    .social-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ────────────── ANIMATIONS ────────────── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ────────────── RESPONSIVE ────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      .about, .features { grid-template-columns: 1fr; gap: 3rem; }
+      .features-img { order: 1; }
+      .features-text { order: 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .courses-section, .instructors-section, .testimonials-section,
+      .pricing-section, .cta-band, .about, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .stat { padding: 1rem 1.5rem; }
+      .stats-bar { flex-direction: column; gap: 1px; background: var(--border); }
+      .stat { border-right: 1px solid var(--border) !important; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Bienvenue sur la Plateforme du Groupe 7</h1>
-    <p>Expertise en administration réseaux et sécurisation d'infrastructures.</p>
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#" class="logo">Cyber<span>Forge</span></a>
+  <ul>
+    <li><a href="#formations">Formations</a></li>
+    <li><a href="#apropos">À Propos</a></li>
+    <li><a href="#instructeurs">Instructeurs</a></li>
+    <li><a href="#tarifs">Tarifs</a></li>
+    <li><a href="#contact" class="nav-cta">S'inscrire</a></li>
+  </ul>
+</nav>
 
-    <div class="clients-grid">
-        <div class="card">
-            <h3 style="color:#2e7d32">AgriDrone Togo</h3>
-            <p>Hébergement Web & Mail sécurisé activé.</p>
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <div class="badge">Formation Certifiante · Cybersécurité Professionnelle</div>
+
+    <h1>Devenez un Expert en<br><span class="highlight">Cybersécurité</span></h1>
+
+    <p>Maîtrisez les techniques offensives et défensives utilisées par les professionnels. Des formations pratiques conçues par des experts de l'industrie.</p>
+
+    <div class="hero-btns">
+      <a href="#formations" class="btn-primary">Voir les formations</a>
+      <a href="#apropos" class="btn-secondary">En savoir plus</a>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">2 400+</div>
+      <div class="stat-label">Apprenants formés</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">18</div>
+      <div class="stat-label">Modules certifiants</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">97%</div>
+      <div class="stat-label">Taux de réussite</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Lab virtuel</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">DÉFILER</div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="apropos" class="about">
+  <div class="about-img reveal">
+    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&q=80" alt="Sécurité informatique"/>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-label">Notre Mission</p>
+    <h2 class="section-title">Former la prochaine génération de défenseurs du numérique</h2>
+    <p class="section-desc">CyberForge Academy est une école spécialisée dans la formation professionnelle en cybersécurité. Nos programmes sont conçus par des praticiens actifs et alignés avec les certifications mondiales reconnues.</p>
+    <ul class="about-list">
+      <li>Certifications reconnues : CEH, OSCP, CompTIA Security+</li>
+      <li>Laboratoires virtuels disponibles 24h/24</li>
+      <li>Mentorat individuel avec des experts certifiés</li>
+      <li>Partenariats avec des entreprises du secteur</li>
+      <li>Mises à jour régulières selon les menaces actuelles</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ COURSES ══ -->
+<section id="formations" class="courses-section">
+  <div class="courses-header reveal">
+    <p class="section-label">Nos Programmes</p>
+    <h2 class="section-title">Formations disponibles</h2>
+    <p class="section-desc">Des parcours structurés pour tous les niveaux, du novice à l'expert pentester.</p>
+  </div>
+
+  <div class="courses-grid">
+    <div class="course-card reveal">
+      <div class="course-icon">🛡️</div>
+      <span class="course-level level-debutant">Débutant</span>
+      <h3>Fondamentaux de la Cybersécurité</h3>
+      <p>Découvrez les bases : réseaux, protocoles, chiffrement et premières notions de sécurité opérationnelle.</p>
+      <div class="course-meta">
+        <span>⏱ 40h</span>
+        <span>📋 Certification</span>
+        <span>👥 En ligne</span>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon">🔍</div>
+      <span class="course-level level-intermediaire">Intermédiaire</span>
+      <h3>Ethical Hacking & Pentest</h3>
+      <p>Apprenez à penser comme un attaquant : reconnaissance, exploitation, post-exploitation et reporting.</p>
+      <div class="course-meta">
+        <span>⏱ 80h</span>
+        <span>📋 CEH Prep</span>
+        <span>👥 Hybride</span>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon">🔒</div>
+      <span class="course-level level-intermediaire">Intermédiaire</span>
+      <h3>Sécurité des Applications Web</h3>
+      <p>OWASP Top 10, injections SQL, XSS, CSRF — maîtrisez la sécurisation des applications modernes.</p>
+      <div class="course-meta">
+        <span>⏱ 60h</span>
+        <span>📋 OWASP</span>
+        <span>👥 En ligne</span>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon">🚨</div>
+      <span class="course-level level-avance">Avancé</span>
+      <h3>Analyse Forensique & Incident Response</h3>
+      <p>Investiguer les cyberincidents, analyser les malwares et orchestrer une réponse efficace aux crises.</p>
+      <div class="course-meta">
+        <span>⏱ 70h</span>
+        <span>📋 GCFE</span>
+        <span>👥 Présentiel</span>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon">☁️</div>
+      <span class="course-level level-avance">Avancé</span>
+      <h3>Sécurité Cloud & DevSecOps</h3>
+      <p>Sécurisez les architectures AWS/Azure/GCP et intégrez la sécurité dans le cycle DevOps.</p>
+      <div class="course-meta">
+        <span>⏱ 65h</span>
+        <span>📋 AWS Security</span>
+        <span>👥 En ligne</span>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="course-icon">🕵️</div>
+      <span class="course-level level-avance">Avancé</span>
+      <h3>Red Team Operations</h3>
+      <p>Simulez des APT réalistes, contournez les EDR, pivotez dans les réseaux d'entreprise complexes.</p>
+      <div class="course-meta">
+        <span>⏱ 120h</span>
+        <span>📋 OSCP Prep</span>
+        <span>👥 Hybride</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section class="features">
+  <div class="features-text reveal">
+    <p class="section-label">Pourquoi nous choisir</p>
+    <h2 class="section-title">Une pédagogie centrée sur la pratique réelle</h2>
+    <p class="section-desc">Nos formations ne sont pas théoriques. Chaque concept est appliqué dans des labs réels, sur des systèmes vulnérables volontairement conçus pour l'apprentissage.</p>
+    <ul class="feature-list">
+      <li class="feature-item">
+        <div class="feature-icon">⚙️</div>
+        <div>
+          <h4>Labs virtuels dédiés</h4>
+          <p>Environnements réalistes hébergés sur le cloud, disponibles 24/7 sans installation locale.</p>
         </div>
-        <div class="card">
-            <h3 style="color:#1565c0">EduTogo E-learning</h3>
-            <p>Plateforme de formation en ligne opérationnelle.</p>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">🏆</div>
+        <div>
+          <h4>CTF hebdomadaires</h4>
+          <p>Challengez-vous sur des compétitions Capture The Flag pour renforcer vos compétences.</p>
         </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">👨‍💻</div>
+        <div>
+          <h4>Suivi personnalisé</h4>
+          <p>Un mentor dédié suit votre progression et vous guide vers les certifications visées.</p>
+        </div>
+      </li>
+      <li class="feature-item">
+        <div class="feature-icon">📈</div>
+        <div>
+          <h4>Insertion professionnelle</h4>
+          <p>Accès à notre réseau de partenaires recruteurs et préparation aux entretiens techniques.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="features-img reveal">
+    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=700&q=80" alt="Matrix code"/>
+    <div class="img-overlay"></div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-dim);margin-left:.5rem">pentest_lab.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p class="dim">$ nmap -sV 192.168.1.0/24</p>
+        <p>Scanning network...</p>
+        <p class="dim">PORT     STATE  SERVICE</p>
+        <p>80/tcp   open   http</p>
+        <p class="warn">443/tcp  VULN   ssl/http</p>
+        <p>22/tcp   open   ssh</p>
+        <p class="dim">$ sqlmap -u target --dbs</p>
+        <p>[!] Found 3 databases <span class="cursor"></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUCTORS ══ -->
+<section id="instructeurs" class="instructors-section">
+  <div class="instructors-header reveal">
+    <p class="section-label">L'Équipe</p>
+    <h2 class="section-title">Nos Instructeurs Experts</h2>
+    <p class="section-desc" style="max-width:500px;margin:0 auto">Des professionnels actifs avec des années d'expérience sur le terrain et des certifications de haut niveau.</p>
+  </div>
+
+  <div class="instructors-grid">
+    <div class="instructor-card reveal">
+      <div class="instructor-img">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Instructeur"/>
+      </div>
+      <div class="instructor-info">
+        <h3>Karim Benali</h3>
+        <p class="role">Red Team Lead · OSCP, CEH</p>
+        <p>12 ans d'expérience en tests d'intrusion pour gouvernements et institutions financières.</p>
+      </div>
+    </div>
+    <div class="instructor-card reveal">
+      <div class="instructor-img">
+        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" alt="Instructeure"/>
+      </div>
+      <div class="instructor-info">
+        <h3>Sophie Marchand</h3>
+        <p class="role">SOC Manager · CISSP, GCIH</p>
+        <p>Ex-analyste CERT national, spécialiste en réponse à incidents et forensique numérique.</p>
+      </div>
+    </div>
+    <div class="instructor-card reveal">
+      <div class="instructor-img">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Instructeur"/>
+      </div>
+      <div class="instructor-info">
+        <h3>Marcus Osei</h3>
+        <p class="role">Cloud Security Architect · AWS, CCSP</p>
+        <p>Architecte sécurité cloud chez un FAANG, formateur certifié AWS Security Specialty.</p>
+      </div>
+    </div>
+    <div class="instructor-card reveal">
+      <div class="instructor-img">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" alt="Instructeure"/>
+      </div>
+      <div class="instructor-info">
+        <h3>Nadia Khoury</h3>
+        <p class="role">AppSec Engineer · GWAPT, BSCP</p>
+        <p>Chercheuse en sécurité applicative, bug bounty hunter reconnue sur HackerOne.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="testimonials-section">
+  <div class="testimonials-header reveal">
+    <p class="section-label">Témoignages</p>
+    <h2 class="section-title">Ce que disent nos diplômés</h2>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>La formation Red Team m'a littéralement transformé. Je suis passé de développeur à pentester en 6 mois. Les labs sont incroyablement réalistes.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AB</div>
+        <div class="testi-author-info">
+          <div class="name">Amara Bah</div>
+          <div class="job">Pentester chez SecureTech</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>Le suivi personnalisé fait toute la différence. Mon mentor m'a guidé pas à pas jusqu'à l'OSCP. Certifié en 4 mois — je n'aurais pas cru ça possible.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">JD</div>
+        <div class="testi-author-info">
+          <div class="name">Jules Dupont</div>
+          <div class="job">Security Engineer, fintech</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>La formation Cloud Security était exactement ce dont j'avais besoin pour évoluer. Contenu très à jour, instructeurs disponibles et compétents.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">FN</div>
+        <div class="testi-author-info">
+          <div class="name">Fatou Ndiaye</div>
+          <div class="job">Cloud Security Analyst</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section id="tarifs" class="pricing-section">
+  <div class="pricing-header reveal">
+    <p class="section-label">Tarification</p>
+    <h2 class="section-title">Choisissez votre accès</h2>
+    <p class="section-desc" style="max-width:480px;margin:0 auto">Toutes les formations incluent l'accès aux labs virtuels et les mises à jour du contenu.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <p class="price-tier">ESSENTIEL</p>
+      <div class="price-amount">
+        <span class="currency">XOF</span>
+        <span class="amount">75K</span>
+        <span class="period">/ formation</span>
+      </div>
+      <p class="price-desc">Accès à un module de formation au choix avec labs de base.</p>
+      <ul class="price-features">
+        <li>1 formation au choix</li>
+        <li>Labs virtuels 30 jours</li>
+        <li>Certificat de réussite</li>
+        <li>Forum communautaire</li>
+        <li class="off">Mentorat individuel</li>
+        <li class="off">CTF compétitions</li>
+      </ul>
+      <button class="btn-plan">Commencer</button>
     </div>
 
-    <hr>
+    <div class="price-card featured reveal">
+      <span class="featured-badge">POPULAIRE</span>
+      <p class="price-tier">PROFESSIONNEL</p>
+      <div class="price-amount">
+        <span class="currency">XOF</span>
+        <span class="amount">200K</span>
+        <span class="period">/ 6 mois</span>
+      </div>
+      <p class="price-desc">Accès illimité à tous les modules + mentorat personnalisé inclus.</p>
+      <ul class="price-features">
+        <li>Toutes les formations</li>
+        <li>Labs illimités 6 mois</li>
+        <li>Certificats officiels</li>
+        <li>CTF hebdomadaires</li>
+        <li>2h mentorat / mois</li>
+        <li>Réseau recruteurs</li>
+      </ul>
+      <button class="btn-plan">Choisir ce plan</button>
+    </div>
 
-    <h3>Nous Contacter</h3>
-    <!-- Remplace l'ID après /f/ par ton ID Formspree (gratuit sur formspree.io) -->
-    <form action="https://formspree.io/f/meenllzg" method="POST">
-        <input type="email" name="email" placeholder="Votre email (ex: client@agridrone.tg)" required>
-        <textarea name="message" placeholder="Votre message pour l'administration..." rows="4" required></textarea>
-        <button type="submit">Envoyer la demande</button>
-    </form>
-    
-    <p style="font-size: 0.8rem; color: #888; margin-top: 20px;">
-        Identité numérique : <a href="mailto:groupe7@ipnetuniversity.net">groupe7@ipnetuniversity.net</a>
-    </p>
-</div>
+    <div class="price-card reveal">
+      <p class="price-tier">ENTREPRISE</p>
+      <div class="price-amount">
+        <span class="amount" style="font-size:2rem;">Sur devis</span>
+      </div>
+      <p class="price-desc">Formation sur mesure pour vos équipes IT et équipes de sécurité.</p>
+      <ul class="price-features">
+        <li>Formation personnalisée</li>
+        <li>Labs dédié entreprise</li>
+        <li>Audit de compétences</li>
+        <li>Formateur sur site</li>
+        <li>Rapport de progression</li>
+        <li>SLA & support dédié</li>
+      </ul>
+      <button class="btn-plan">Nous contacter</button>
+    </div>
+  </div>
+</section>
 
+<!-- ══ CTA BAND ══ -->
+<section class="cta-band" id="contact">
+  <div class="cta-band-content reveal">
+    <p class="section-label" style="text-align:center">Rejoignez-nous</p>
+    <h2>Prêt à sécuriser<br><em>votre avenir</em> ?</h2>
+    <p>Inscrivez-vous dès aujourd'hui et commencez votre formation avec un accès immédiat aux labs. La prochaine cohorte démarre dans 7 jours.</p>
+    <div class="hero-btns">
+      <a href="#tarifs" class="btn-primary">Démarrer maintenant</a>
+      <a href="mailto:contact@cyberforgeacademy.com" class="btn-secondary">Nous écrire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">Cyber<span>Forge</span></a>
+      <p>Former les experts cybersécurité de demain grâce à des programmes pratiques, certifiants et orientés industrie.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Formations</h4>
+      <ul>
+        <li><a href="#">Fondamentaux</a></li>
+        <li><a href="#">Ethical Hacking</a></li>
+        <li><a href="#">Sécurité Web</a></li>
+        <li><a href="#">Red Team</a></li>
+        <li><a href="#">Cloud Security</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Académie</h4>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Instructeurs</a></li>
+        <li><a href="#">Certifications</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">contact@cyberforgeacademy.com</a></li>
+        <li><a href="#">+228 99 00 00 00</a></li>
+        <li><a href="#">Lomé, Togo</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Discord</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 CyberForge Academy — Tous droits réservés</p>
+    <div class="social-links">
+      <a href="#" title="LinkedIn">in</a>
+      <a href="#" title="Twitter">𝕏</a>
+      <a href="#" title="Discord">D</a>
+      <a href="#" title="GitHub">⌥</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
 </body>
 </html>
